@@ -31,7 +31,6 @@ module Toneforge
       loop do
         DSP.write(100.chr * 50)
         DSP.write(200.chr * 50)
-        sleep 0.01
       end
     end
 

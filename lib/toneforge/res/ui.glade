@@ -7,6 +7,7 @@
     <property name="window_position">center</property>
     <property name="default_width">440</property>
     <property name="default_height">250</property>
+    <property name="icon_name">preferences-desktop-multimedia</property>
     <child>
       <object class="GtkNotebook" id="tabs_main">
         <property name="visible">True</property>
