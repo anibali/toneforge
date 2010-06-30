@@ -27,8 +27,10 @@ module Toneforge
     end
     
     Thread.new do
-      100.times do |i|
-        DSP.write((i % 2 == 0 ? 100.chr : 200.chr) * 50)
+      loop do
+        DSP.write(100.chr * 50)
+        DSP.write(200.chr * 50)
+        sleep 0.01
       end
     end
 
