@@ -30,13 +30,11 @@ module Toneforge
       Gtk.main_quit
     end
     
-<<<<<<< HEAD
     Thread.new { beep(2000, 100, 1) }
-=======
+
     volume.signal_connect("value-changed") do
       amp_label.set_text(format('%.1f%%', volume.value))
     end
->>>>>>> bb831805b9a4249ffbb5fa9c8cef906d20cbcb81
 
     window.show_all
 
