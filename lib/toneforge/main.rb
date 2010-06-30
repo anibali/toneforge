@@ -1,24 +1,21 @@
 require 'gtk2'
+require 'libglade2'
 
-button = Gtk::Button.new("Hello World")
-button.signal_connect("clicked") {
-  puts "Hello World"
-}
+require 'toneforge/resources'
 
-window = Gtk::Window.new
-window.signal_connect("delete_event") {
-  puts "delete event occurred"
-  #true
-  false
-}
+module Toneforge
+  def self.main
+    builder = Gtk::Builder.new
+    builder.add_from_file(Resources.find 'ui.glade')
+    window = builder.get_object('wnd_main')
+    
+    window.signal_connect("destroy") do
+      Gtk.main_quit
+    end
 
-window.signal_connect("destroy") {
-  puts "destroy event occurred"
-  Gtk.main_quit
-}
+    window.show_all
 
-window.border_width = 10
-window.add(button)
-window.show_all
+    Gtk.main
+  end
+end
 
-Gtk.main
