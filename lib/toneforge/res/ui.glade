@@ -15,9 +15,10 @@
           <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
             <child>
-              <object class="GtkLabel" id="label1">
+              <object class="GtkDrawingArea" id="drawingarea">
+                <property name="width_request">110</property>
+                <property name="height_request">110</property>
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">pretty pictures to go here</property>
               </object>
               <packing>
                 <property name="position">0</property>
