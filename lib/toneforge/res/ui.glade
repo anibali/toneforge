@@ -103,7 +103,7 @@
         <child type="tab">
           <object class="GtkLabel" id="lbl_tab2">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Not main</property>
+            <property name="label" translatable="yes">Curve example</property>
           </object>
           <packing>
             <property name="position">1</property>
