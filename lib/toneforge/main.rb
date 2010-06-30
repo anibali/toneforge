@@ -29,24 +29,24 @@ module Toneforge
     end
     
     256.times do |i|
-      WAVE << 32 * Math.sin(i.to_f / 5) + 128
+      WAVE << 0.5 * (Math.sin(i.to_f / 5) + 1)
     end
     
     Thread.new do
       loop do
-        DSP.write(WAVE.map {|n| n.to_i.chr}.join)
+        DSP.write(WAVE.map {|n| (n * 200).to_i.chr}.join)
       end
     end
 
     volume.signal_connect("value-changed") do
-      amp_label.set_text(format('%.1f%%', volume.value))
+      amp_label.set_text('%.1f%%' % volume.value)
     end
     
     drawing_area.signal_connect("expose-event") do
       cairo = drawing_area.window.create_cairo_context
-      cairo.move_to 0, WAVE.last
+      cairo.move_to 0, WAVE.last * 200
       WAVE.each_with_index do |y, x|
-        cairo.line_to x, y
+        cairo.line_to x, y * 200
       end
       cairo.stroke
     end
