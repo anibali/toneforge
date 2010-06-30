@@ -23,6 +23,8 @@ module Toneforge
     amp_label = builder.get_object('lbl_amp')
     drawing_area = builder.get_object('drawingarea')
     
+    volume.value = 50.0
+    
     window.signal_connect("destroy") do
       DSP.close
       Gtk.main_quit
@@ -39,7 +41,7 @@ module Toneforge
     end
 
     volume.signal_connect("value-changed") do
-      amp_label.set_text(format('%.1f%%', volume.value))
+      amp_label.set_text('%.1f%%' % volume.value)
     end
     
     drawing_area.signal_connect("expose-event") do
