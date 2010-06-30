@@ -3,6 +3,7 @@
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkWindow" id="wnd_main">
+    <property name="title" translatable="yes">Toneforge</property>
     <property name="window_position">center</property>
     <property name="default_width">440</property>
     <property name="default_height">250</property>
@@ -32,6 +33,7 @@
                     <child>
                       <object class="GtkLabel" id="label3">
                         <property name="visible">True</property>
+                        <property name="xalign">0.44999998807907104</property>
                         <property name="label" translatable="yes">Amplitude:</property>
                       </object>
                       <packing>
@@ -42,6 +44,7 @@
                       <object class="GtkLabel" id="lbl_amp">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">0.0%</property>
+                        <property name="width_chars">7</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -63,10 +66,7 @@
                     <property name="focus_on_click">False</property>
                     <property name="orientation">vertical</property>
                     <property name="adjustment">adj_volume</property>
-                    <property name="icons">audio-volume-muted
-audio-volume-high
-audio-volume-low
-audio-volume-medium</property>
+                    <property name="icons"></property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -76,6 +76,8 @@ audio-volume-medium</property>
                 </child>
               </object>
               <packing>
+                <property name="expand">False</property>
+                <property name="padding">10</property>
                 <property name="position">1</property>
               </packing>
             </child>
