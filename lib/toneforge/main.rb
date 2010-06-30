@@ -6,6 +6,7 @@ module Toneforge
   SAMPLE_RATE = 8000
   DSP = File.open("/dev/dsp", "w")
   DSP.sync = true
+  WAVE = []
 
   def self.beep(frequency, amplitude, duration)
     0.step(duration, 1.0 / SAMPLE_RATE) do |t|
@@ -27,19 +28,27 @@ module Toneforge
       Gtk.main_quit
     end
     
+    256.times do |i|
+      WAVE << 32 * Math.sin(i.to_f / 5) + 128
+    end
+    
     Thread.new do
       loop do
-        DSP.write(100.chr * 50)
-        DSP.write(200.chr * 50)
-        sleep 0.01
+        DSP.write(WAVE.map {|n| n.to_i.chr}.join)
       end
     end
 
     volume.signal_connect("value-changed") do
       amp_label.set_text(format('%.1f%%', volume.value))
-      drawing_area.window.clear
-      drawing_area.window.draw_line(drawing_area.style.fg_gc(drawing_area.state),
-            0, 55, volume.value.to_i, 55)
+    end
+    
+    drawing_area.signal_connect("expose-event") do
+      cairo = drawing_area.window.create_cairo_context
+      cairo.move_to 0, WAVE.last
+      WAVE.each_with_index do |y, x|
+        cairo.line_to x, y
+      end
+      cairo.stroke
     end
 
     window.show_all
