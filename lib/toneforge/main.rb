@@ -1,5 +1,4 @@
 require 'gtk2'
-require 'libglade2'
 
 require 'toneforge/resources'
 
