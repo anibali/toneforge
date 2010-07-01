@@ -69,8 +69,8 @@ module Toneforge
           height = drawing_area.allocation.height
           mx = eb_draw.pointer[0].to_f / width
           my = eb_draw.pointer[1].to_f / height
-          HANDLES[@handle_index][0] = mx
-          HANDLES[@handle_index][1] = my
+          HANDLES[@handle_index][0] = clip mx
+          HANDLES[@handle_index][1] = clip my
           
           HANDLES.sort! {|a, b| a.first <=> b.first}
           render drawing_area
@@ -149,7 +149,7 @@ module Toneforge
         end
         last_x, last_y = x, y
       end
-      result < 0 ? 0 : result > 1 ? 1 : result
+      clip result
     end
     
     def sinusoidal from_x
@@ -167,7 +167,11 @@ module Toneforge
         end
         last_x, last_y = x, y
       end
-      result < 0 ? 0 : result > 1 ? 1 : result
+      clip result
+    end
+    
+    def clip n
+      n < 0 ? 0 : n > 1 ? 1 : n
     end
   end # End Main
 end # End Toneforge
