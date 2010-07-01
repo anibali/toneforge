@@ -156,12 +156,32 @@
                   <object class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
                     <child>
+                      <object class="GtkLabel" id="label3">
+                        <property name="visible">True</property>
+                        <property name="xpad">3</property>
+                        <property name="label" translatable="yes">Frequency:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHScale" id="frequency_slider">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="adjustment">adj_frequency</property>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkVolumeButton" id="volumebutton1">
-                        <property name="label" translatable="yes">Amplitude</property>
+                        <property name="label" translatable="yes">Volume</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Adjust amplitude</property>
                         <property name="relief">none</property>
                         <property name="focus_on_click">False</property>
                         <property name="orientation">vertical</property>
@@ -169,17 +189,8 @@
                         <property name="icons"></property>
                       </object>
                       <packing>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="lbl_amp">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">50.0%</property>
-                        <property name="width_chars">4</property>
-                      </object>
-                      <packing>
-                        <property name="position">1</property>
+                        <property name="expand">False</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -334,5 +345,11 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkAdjustment" id="adj_frequency">
+    <property name="upper">110</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
   </object>
 </interface>

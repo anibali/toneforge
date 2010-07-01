@@ -35,7 +35,7 @@ module Toneforge
       builder.add_from_file(Resources.find 'ui.glade')
       window = builder.get_object('wnd_main')
       volume = builder.get_object('adj_volume')
-      amp_label = builder.get_object('lbl_amp')
+      frequency_slider = builder.get_object('adj_frequency')
       drawing_area = builder.get_object('drawingarea')
       eb_draw = builder.get_object('eb_draw')
       menu_quit = builder.get_object('menu_quit')
@@ -61,7 +61,7 @@ module Toneforge
       menu_export.signal_connect("activate") do
         surface = Cairo::ImageSurface.new(800, 600)
         context = Cairo::Context.new(surface)
-        render(context, 600, 600)
+        render(context, 800, 600)
         surface.write_to_png(File.join(GLib.home_dir, "tuneforge-image.png"))
       end
       
@@ -71,10 +71,6 @@ module Toneforge
       
       about_close_button.signal_connect("clicked") do
         about_dialog.hide
-      end
-
-      volume.signal_connect("value-changed") do
-        amp_label.set_text('%.1f%%' % volume.value)
       end
 
       Thread.abort_on_exception=true
