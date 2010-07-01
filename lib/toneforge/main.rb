@@ -20,14 +20,26 @@ module Toneforge
       volume = builder.get_object('adj_volume')
       amp_label = builder.get_object('lbl_amp')
       drawing_area = builder.get_object('drawingarea')
-      save_button = builder.get_object('btn_save')
       eb_draw = builder.get_object('eb_draw')
+      menu_quit = builder.get_object('menu_quit')
+      menu_save = builder.get_object('menu_save')
       
       volume.value = 50.0
       
       window.signal_connect("destroy") do
         DSP.close
         Gtk.main_quit
+      end
+      
+      menu_quit.signal_connect("activate") do
+        window.destroy
+      end
+      
+      menu_save.signal_connect("activate") do
+        a = drawing_area.allocation
+        image = Gdk::Pixbuf.from_drawable(drawing_area.colormap, 
+          drawing_area.window, 0, 0, a.width, a.height)
+        image.save(File.join(GLib.home_dir, "image.png"), "png")
       end
       
       Thread.new do
@@ -40,13 +52,6 @@ module Toneforge
 
       volume.signal_connect("value-changed") do
         amp_label.set_text('%.1f%%' % volume.value)
-      end
-      
-      save_button.signal_connect("clicked") do
-        a = drawing_area.allocation
-        image = Gdk::Pixbuf.from_drawable(drawing_area.colormap, 
-          drawing_area.window, 0, 0, a.width, a.height)
-        image.save(File.join(GLib.home_dir, "image.png"), "png")
       end
       
       drawing_area.signal_connect("expose-event") do
