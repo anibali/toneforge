@@ -46,6 +46,7 @@ module Toneforge
       menu_draw_linear = builder.get_object('menu_draw_linear')
       menu_draw_sinusoidal = builder.get_object('menu_draw_sinusoidal')
       about_close_button = builder.get_object('btn_about_close')
+      mute_checkbox = builder.get_object('chk_mute') # TODO: make this work
       
       volume.value = 50.0
       

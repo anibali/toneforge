@@ -176,16 +176,38 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkVolumeButton" id="volumebutton1">
-                        <property name="label" translatable="yes">Volume</property>
+                      <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                        <property name="focus_on_click">False</property>
                         <property name="orientation">vertical</property>
-                        <property name="adjustment">adj_volume</property>
-                        <property name="icons"></property>
+                        <child>
+                          <object class="GtkVolumeButton" id="volumebutton1">
+                            <property name="label" translatable="yes">Volume</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="relief">none</property>
+                            <property name="focus_on_click">False</property>
+                            <property name="orientation">vertical</property>
+                            <property name="adjustment">adj_volume</property>
+                            <property name="icons"></property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="chk_mute">
+                            <property name="label" translatable="yes">Mute</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
