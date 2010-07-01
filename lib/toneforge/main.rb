@@ -12,6 +12,21 @@ module Toneforge
     DSP = File.open("/dev/dsp", "w")
     DSP.sync = true
     HANDLES = [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
+    
+    JOIN_FUNCTIONS = {
+      :linear => lambda { |x1, y1, x2, y2, x|
+        m = (y2 - y1) / (x2 - x1)
+        m * (x - x1) + y1
+      },
+      
+      :sinusoidal => lambda { |x1, y1, x2, y2, x|
+        a = (y2 - y1) / 2
+        n = Math::PI / (x2 - x1)
+        h = (x2 + x1) / 2
+        k = (y2 + y1) / 2
+        a * Math.sin(n * (x - h)) + k
+      }
+    }
 
     def initialize
       builder = Gtk::Builder.new
@@ -49,7 +64,7 @@ module Toneforge
         until DSP.closed?
           str = ""
           0.step(1.0, 0.01) do |t|
-            str << (sinusoidal(t) * 200).to_i.chr
+            str << (get_amplitude(t) * 200).to_i.chr
           end
           DSP.write(str) rescue nil
         end
@@ -69,7 +84,7 @@ module Toneforge
           height = drawing_area.allocation.height
           mx = eb_draw.pointer[0].to_f / width
           my = eb_draw.pointer[1].to_f / height
-          HANDLES[@handle_index][0] = clip mx
+          HANDLES[@handle_index][0] = clip mx unless @handle_index == HANDLES.size - 1
           HANDLES[@handle_index][1] = clip my
           
           HANDLES.sort! {|a, b| a.first <=> b.first}
@@ -89,14 +104,14 @@ module Toneforge
         HANDLES.each_with_index do |pos, i|
           x, y = *pos
           dist = Math.sqrt((my - y) ** 2 + (mx - x) ** 2)
-          if dist < 0.03 and dist < best_dist
+          if dist < 0.04 and dist < best_dist
             @handle_index = i
             best_dist = dist
           end
         end
         
         unless @handle_index
-          HANDLES << [mx, sinusoidal(mx)]
+          HANDLES << [mx, get_amplitude(mx)]
           HANDLES.sort! {|a, b| a.first <=> b.first}
           render drawing_area
         end
@@ -126,52 +141,31 @@ module Toneforge
       end
       
       0.step(1, 0.01) do |x|
-        cairo.line_to(x * width, sinusoidal(x) * height)
+        cairo.line_to(x * width, get_amplitude(x) * height)
       end
       cairo.stroke
     end
     
-    def beep(frequency, amplitude, duration)
-      0.step(duration, 1.0 / SAMPLE_RATE) do |t|
-        y = Math.sin(t * frequency) * 50 + 127;
-        DSP.write(y.to_i.chr)
-      end
-    end
-    
-    def linear from_x
-      last_x, last_y = * HANDLES.last
-      result = 0
-      HANDLES.each do |x, y|
-        if from_x <= x
-          m = (y - last_y) / (x - last_x)
-          result = m * (from_x - last_x) + last_y
+    def get_amplitude t
+      x1 = 0.0
+      y1 = HANDLES.last[1]
+      result = 0.0
+      HANDLES.each do |x2, y2|
+        if t <= x2
+          if x2 == x1
+            result = y2
+          else
+            result = JOIN_FUNCTIONS[:sinusoidal][x1, y1, x2, y2, t]
+          end
           break
         end
-        last_x, last_y = x, y
-      end
-      clip result
-    end
-    
-    def sinusoidal from_x
-      last_x = 0
-      last_y = HANDLES.last[1]
-      result = 0
-      HANDLES.each do |x, y|
-        if from_x <= x
-          a = (y - last_y) / 2
-          n = Math::PI / (x - last_x)
-          h = (x + last_x) / 2
-          k = (y + last_y) / 2
-          result = a * Math.sin(n * (from_x - h)) + k
-          break
-        end
-        last_x, last_y = x, y
+        x1, y1 = x2, y2
       end
       clip result
     end
     
     def clip n
-      n < 0 ? 0 : n > 1 ? 1 : n
+      n < 0 ? 0.0 : n > 1 ? 1.0 : n
     end
   end # End Main
 end # End Toneforge
