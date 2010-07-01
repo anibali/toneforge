@@ -37,6 +37,7 @@
                         <property name="label">gtk-open</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
+                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                       </object>
                     </child>
@@ -45,6 +46,7 @@
                         <property name="label">gtk-save</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
+                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                       </object>
                     </child>
@@ -76,13 +78,41 @@
             <child>
               <object class="GtkMenuItem" id="menuitem4">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">_Help</property>
+                <property name="label" translatable="yes">_Join</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="menu3">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem10">
+                      <object class="GtkImageMenuItem" id="menu_draw_linear">
+                        <property name="label">Linear</property>
+                        <property name="visible">True</property>
+                        <property name="image">image2</property>
+                        <property name="use_stock">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="menu_draw_sinusoidal">
+                        <property name="label">Sinusoidal</property>
+                        <property name="visible">True</property>
+                        <property name="image">image3</property>
+                        <property name="use_stock">False</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="menuitem2">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_Help</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="menu2">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkImageMenuItem" id="menu_about">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
@@ -210,6 +240,18 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="stock">gtk-save</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="stock">gtk-convert</property>
+    <property name="pixel_size">12</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="stock">gtk-convert</property>
+    <property name="pixel_size">12</property>
     <property name="icon-size">1</property>
   </object>
 </interface>

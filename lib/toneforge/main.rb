@@ -38,6 +38,8 @@ module Toneforge
       eb_draw = builder.get_object('eb_draw')
       menu_quit = builder.get_object('menu_quit')
       menu_export = builder.get_object('menu_export')
+      menu_draw_linear = builder.get_object('menu_draw_linear')
+      menu_draw_sinusoidal = builder.get_object('menu_draw_sinusoidal')
       
       volume.value = 50.0
       
@@ -58,7 +60,11 @@ module Toneforge
         render(context, surface.width, surface.height)
         surface.write_to_png(File.join(GLib.home_dir, "tuneforge-image.png"))
       end
-      
+
+      volume.signal_connect("value-changed") do
+        amp_label.set_text('%.1f%%' % volume.value)
+      end
+
       Thread.abort_on_exception=true
       
       Thread.new do
@@ -70,9 +76,13 @@ module Toneforge
           DSP.write(str) rescue nil
         end
       end
-
-      volume.signal_connect("value-changed") do
-        amp_label.set_text('%.1f%%' % volume.value)
+      
+      menu_draw_linear.signal_connect("activate") do
+        # DRAW LINEAR
+      end
+      
+      menu_draw_sinusoidal.signal_connect("activate") do
+        # DRAW SINUSOIDAL
       end
       
       drawing_area.signal_connect("expose-event") do
