@@ -38,9 +38,10 @@ module Toneforge
       
       menu_export.signal_connect("activate") do
         a = drawing_area.allocation
-        image = Gdk::Pixbuf.from_drawable(drawing_area.colormap, 
-          drawing_area.window, 0, 0, a.width, a.height)
-        image.save(File.join(GLib.home_dir, "image.png"), "png")
+        surface = Cairo::ImageSurface.new(a.width, a.height)
+        context = Cairo::Context.new(surface)
+        render(context, surface.width, surface.height)
+        surface.write_to_png(File.join(GLib.home_dir, "tuneforge-image.png"))
       end
       
       Thread.abort_on_exception=true
@@ -60,7 +61,8 @@ module Toneforge
       end
       
       drawing_area.signal_connect("expose-event") do
-        render drawing_area
+        a = drawing_area.allocation
+        render(drawing_area.window.create_cairo_context, a.width, a.height)
       end
       
       eb_draw.signal_connect("motion-notify-event") do
@@ -73,7 +75,8 @@ module Toneforge
           HANDLES[@handle_index][1] = clip my
           
           HANDLES.sort! {|a, b| a.first <=> b.first}
-          render drawing_area
+          a = drawing_area.allocation
+          render(drawing_area.window.create_cairo_context, a.width, a.height)
         end
       end
       
@@ -98,7 +101,8 @@ module Toneforge
         unless @handle_index
           HANDLES << [mx, sinusoidal(mx)]
           HANDLES.sort! {|a, b| a.first <=> b.first}
-          render drawing_area
+          a = drawing_area.allocation
+          render(drawing_area.window.create_cairo_context, a.width, a.height)
         end
       end
 
@@ -109,11 +113,7 @@ module Toneforge
       Gtk.main
     end
     
-    def render drawing_area
-      cairo = drawing_area.window.create_cairo_context
-      width = drawing_area.allocation.width
-      height = drawing_area.allocation.height
-      
+    def render cairo, width, height
       cairo.save
       cairo.set_source_rgba 1, 1, 1, 1;
       cairo.operator = Cairo::OPERATOR_SOURCE
@@ -129,6 +129,8 @@ module Toneforge
         cairo.line_to(x * width, sinusoidal(x) * height)
       end
       cairo.stroke
+      
+      return cairo
     end
     
     def beep(frequency, amplitude, duration)
