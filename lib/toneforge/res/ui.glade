@@ -24,7 +24,7 @@
                   <object class="GtkMenu" id="menu1">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem1">
+                      <object class="GtkImageMenuItem" id="menu_new">
                         <property name="label">gtk-new</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
@@ -33,11 +33,10 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem2">
+                      <object class="GtkImageMenuItem" id="menu_open">
                         <property name="label">gtk-open</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                       </object>
                     </child>
@@ -45,17 +44,16 @@
                       <object class="GtkImageMenuItem" id="menu_save">
                         <property name="label">gtk-save</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
+                        <property name="sensitive">False</property>
                         <property name="use_stock">True</property>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem4">
-                        <property name="label">gtk-save-as</property>
+                      <object class="GtkImageMenuItem" id="menu_export">
+                        <property name="label" translatable="yes">Export as image</property>
                         <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">image1</property>
+                        <property name="use_stock">False</property>
                       </object>
                     </child>
                     <child>
@@ -87,6 +85,7 @@
                       <object class="GtkImageMenuItem" id="imagemenuitem10">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
+                        <property name="sensitive">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                       </object>
@@ -128,7 +127,7 @@
                   <object class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkScaleButton" id="scalebutton1">
+                      <object class="GtkVolumeButton" id="volumebutton1">
                         <property name="label" translatable="yes">Amplitude</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -138,6 +137,7 @@
                         <property name="focus_on_click">False</property>
                         <property name="orientation">vertical</property>
                         <property name="adjustment">adj_volume</property>
+                        <property name="icons"></property>
                       </object>
                       <packing>
                         <property name="position">0</property>
@@ -206,5 +206,10 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
     <property name="page_size">10</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="stock">gtk-save</property>
+    <property name="icon-size">1</property>
   </object>
 </interface>
