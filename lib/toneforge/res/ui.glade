@@ -27,7 +27,6 @@
                       <object class="GtkImageMenuItem" id="menu_new">
                         <property name="label">gtk-new</property>
                         <property name="visible">True</property>
-                        <property name="sensitive">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                       </object>
@@ -302,7 +301,7 @@
             </child>
             <child>
               <object class="GtkLinkButton" id="linkbutton1">
-                <property name="label" translatable="yes">Fork us @ Github</property>
+                <property name="label" translatable="yes">Fork it @ Github</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

@@ -38,6 +38,7 @@ module Toneforge
       frequency_slider = builder.get_object('adj_frequency')
       drawing_area = builder.get_object('drawingarea')
       eb_draw = builder.get_object('eb_draw')
+      menu_new = builder.get_object('menu_new')
       menu_quit = builder.get_object('menu_quit')
       menu_export = builder.get_object('menu_export')
       menu_about = builder.get_object('menu_about')
@@ -56,6 +57,13 @@ module Toneforge
       
       menu_quit.signal_connect("activate") do
         window.destroy
+      end
+      
+      menu_new.signal_connect("activate") do
+        HANDLES.clear
+        HANDLES.concat [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
+        a = drawing_area.allocation
+        render(drawing_area.window.create_cairo_context, a.width, a.height)
       end
       
       menu_export.signal_connect("activate") do
