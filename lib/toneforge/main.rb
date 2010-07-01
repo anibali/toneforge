@@ -60,8 +60,9 @@ module Toneforge
     
     save_button.signal_connect("clicked") do
       a = drawing_area.allocation
-      image = Gdk::Pixbuf.from_drawable(nil, drawing_area, 0, 0, a.width, a.height)
-      puts image
+      image = Gdk::Pixbuf.from_drawable(drawing_area.colormap, 
+        drawing_area.window, 0, 0, a.width, a.height)
+      image.save(File.join(GLib.home_dir, "image.png"), "png")
     end
     
     drawing_area.signal_connect("expose-event") do
