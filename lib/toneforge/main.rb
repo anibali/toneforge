@@ -35,6 +35,7 @@ module Toneforge
       builder.add_from_file(Resources.find 'ui.glade')
       window = builder.get_object('wnd_main')
       volume = builder.get_object('adj_volume')
+      volume_button = builder.get_object('btn_volume')
       frequency_slider = builder.get_object('adj_frequency')
       drawing_area = builder.get_object('drawingarea')
       eb_draw = builder.get_object('eb_draw')
@@ -80,6 +81,10 @@ module Toneforge
       
       about_close_button.signal_connect("clicked") do
         about_dialog.hide
+      end
+
+      volume.signal_connect("value-changed") do
+        volume_button.tooltip_text = '%.1f%%' % volume.value
       end
 
       Thread.abort_on_exception=true
