@@ -37,6 +37,8 @@ module Toneforge
     amp_label = builder.get_object('lbl_amp')
     drawing_area = builder.get_object('drawingarea')
     
+    volume.value = 50.0
+    
     window.signal_connect("destroy") do
       DSP.close
       Gtk.main_quit

@@ -45,7 +45,7 @@
                     <child>
                       <object class="GtkLabel" id="lbl_amp">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">0.0%</property>
+                        <property name="label" translatable="yes">50.0%</property>
                         <property name="width_chars">7</property>
                       </object>
                       <packing>
