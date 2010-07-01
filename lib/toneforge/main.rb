@@ -11,7 +11,7 @@ module Toneforge
     SAMPLE_RATE = 8000
     DSP = File.open("/dev/dsp", "w")
     DSP.sync = true
-    HANDLES = [[0.2, 0.7], [0.4, 0.3], [0.6, 0.7], [0.8, 0.3], [1.0, 0.7]]
+    HANDLES = [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
 
     def initialize
       builder = Gtk::Builder.new
@@ -27,7 +27,7 @@ module Toneforge
       volume.value = 50.0
       
       window.signal_connect("destroy") do
-        DSP.close
+        DSP.close unless DSP.closed?
         Gtk.main_quit
       end
       
@@ -42,11 +42,15 @@ module Toneforge
         image.save(File.join(GLib.home_dir, "image.png"), "png")
       end
       
+      Thread.abort_on_exception=true
+      
       Thread.new do
-        loop do
+        until DSP.closed?
+          str = ""
           0.step(1.0, 0.01) do |t|
-            DSP.write((get_y(t) * 200).to_i.chr)
+            str << (sinusoidal(t) * 200).to_i.chr
           end
+          DSP.write(str)
         end
       end
 
@@ -83,10 +87,16 @@ module Toneforge
         HANDLES.each_with_index do |pos, i|
           x, y = *pos
           dist = Math.sqrt((my - y) ** 2 + (mx - x) ** 2)
-          if dist < 0.1 and dist < best_dist
+          if dist < 0.03 and dist < best_dist
             @handle_index = i
             best_dist = dist
           end
+        end
+        
+        unless @handle_index
+          HANDLES << [mx, sinusoidal(mx)]
+          HANDLES.sort! {|a, b| a.first <=> b.first}
+          render drawing_area
         end
       end
 
@@ -113,9 +123,8 @@ module Toneforge
         cairo.stroke
       end
       
-      cairo.move_to 0, get_y(0)
       0.step(1, 0.01) do |x|
-        cairo.line_to(x * width, get_y(x) * height)
+        cairo.line_to(x * width, sinusoidal(x) * height)
       end
       cairo.stroke
     end
@@ -127,13 +136,31 @@ module Toneforge
       end
     end
     
-    def get_y from_x
+    def linear from_x
       last_x, last_y = * HANDLES.last
       result = 0
       HANDLES.each do |x, y|
         if from_x <= x
           m = (y - last_y) / (x - last_x)
           result = m * (from_x - last_x) + last_y
+          break
+        end
+        last_x, last_y = x, y
+      end
+      result < 0 ? 0 : result > 1 ? 1 : result
+    end
+    
+    def sinusoidal from_x
+      last_x = 0
+      last_y = HANDLES.last[1]
+      result = 0
+      HANDLES.each do |x, y|
+        if from_x <= x
+          a = (y - last_y) / 2
+          n = Math::PI / (x - last_x)
+          h = (x + last_x) / 2
+          k = (y + last_y) / 2
+          result = a * Math.sin(n * (from_x - h)) + k
           break
         end
         last_x, last_y = x, y
