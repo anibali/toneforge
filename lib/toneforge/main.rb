@@ -29,6 +29,8 @@ module Toneforge
     }
 
     def initialize
+      @join_function = JOIN_FUNCTIONS[:sinusoidal]
+      
       builder = Gtk::Builder.new
       builder.add_from_file(Resources.find 'ui.glade')
       window = builder.get_object('wnd_main')
@@ -68,9 +70,10 @@ module Toneforge
       Thread.abort_on_exception=true
       
       Thread.new do
+        # FIXME: This sucks. Use a proper audio library and eliminate lag.
         until DSP.closed?
           str = ""
-          0.step(1.0, 0.01) do |t|
+          0.step(1.0, 0.02) do |t|
             str << (get_amplitude(t) * 200).to_i.chr
           end
           DSP.write(str) rescue nil
@@ -78,11 +81,15 @@ module Toneforge
       end
       
       menu_draw_linear.signal_connect("activate") do
-        # DRAW LINEAR
+        @join_function = JOIN_FUNCTIONS[:linear]
+        a = drawing_area.allocation
+        render(drawing_area.window.create_cairo_context, a.width, a.height)
       end
       
       menu_draw_sinusoidal.signal_connect("activate") do
-        # DRAW SINUSOIDAL
+        @join_function = JOIN_FUNCTIONS[:sinusoidal]
+        a = drawing_area.allocation
+        render(drawing_area.window.create_cairo_context, a.width, a.height)
       end
       
       drawing_area.signal_connect("expose-event") do
@@ -167,7 +174,7 @@ module Toneforge
           if x2 == x1
             result = y2
           else
-            result = JOIN_FUNCTIONS[:sinusoidal][x1, y1, x2, y2, t]
+            result = @join_function[x1, y1, x2, y2, t]
           end
           break
         end
