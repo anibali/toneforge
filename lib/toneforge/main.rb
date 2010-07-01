@@ -27,10 +27,7 @@ module Toneforge
       volume.value = 50.0
       
       window.signal_connect("destroy") do
-        begin
-          DSP.close
-        rescue
-        end unless DSP.closed?
+        DSP.close
         
         Gtk.main_quit
       end
@@ -54,7 +51,7 @@ module Toneforge
           0.step(1.0, 0.01) do |t|
             str << (sinusoidal(t) * 200).to_i.chr
           end
-          DSP.write(str)
+          DSP.write(str) rescue nil
         end
       end
 
