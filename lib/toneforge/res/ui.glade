@@ -265,7 +265,7 @@
     <property name="icon-size">1</property>
   </object>
   <object class="GtkWindow" id="about_dialog">
-    <property name="title" translatable="yes">About Tuneforge</property>
+    <property name="title" translatable="yes">About Toneforge</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
@@ -281,7 +281,7 @@
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Tuneforge 0.0.1</property>
+                <property name="label" translatable="yes">Toneforge 0.0.1</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                   <attribute name="scale" value="2.000000"/>
