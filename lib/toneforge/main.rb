@@ -28,6 +28,23 @@ module Toneforge
     }
 
     def initialize
+      Thread.abort_on_exception = true
+      
+      Thread.new do
+        ALSA::PCM::Playback.open do |playback|
+          playback.write do |length|
+            str = ""
+            f = 1600
+            f.times do |t|
+              t = t.to_f / f
+              str << (get_amplitude(t) * 150).to_i.chr
+            end
+            str *= length / f
+            str
+          end
+        end
+      end
+      
       @join_function = JOIN_FUNCTIONS[:sinusoidal]
       
       builder = Gtk::Builder.new
@@ -82,24 +99,6 @@ module Toneforge
 
       volume.signal_connect("value-changed") do
         volume_button.tooltip_text = '%.1f%%' % volume.value
-      end
-
-      Thread.abort_on_exception=true
-      
-      Thread.new do
-        ALSA::PCM::Playback.open do |playback|
-          playback.write do |length|
-            str = ""
-            length.times do |t|
-              t = t.to_f / length
-              t *= 100
-              t %= 1
-              str << (get_amplitude(t) * 200).to_i.chr
-            end
-            p length
-            str
-          end
-        end
       end
       
       menu_draw_linear.signal_connect("activate") do
