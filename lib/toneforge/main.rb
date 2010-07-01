@@ -79,6 +79,10 @@ module Toneforge
       
       render drawing_area
     end
+    
+    eb_draw.signal_connect("button-press-event") do
+      # DO SOMETHING INTERESTING
+    end
 
     window.show_all
 
