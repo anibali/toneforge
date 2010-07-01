@@ -128,44 +128,26 @@
                   <object class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkHBox" id="hbox2">
+                      <object class="GtkScaleButton" id="scalebutton1">
+                        <property name="label" translatable="yes">Amplitude</property>
                         <property name="visible">True</property>
-                        <child>
-                          <object class="GtkLabel" id="label3">
-                            <property name="visible">True</property>
-                            <property name="xalign">0.44999998807907104</property>
-                            <property name="label" translatable="yes">Amplitude:</property>
-                          </object>
-                          <packing>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="lbl_amp">
-                            <property name="visible">True</property>
-                            <property name="label" translatable="yes">50.0%</property>
-                            <property name="width_chars">4</property>
-                          </object>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Adjust amplitude</property>
+                        <property name="relief">none</property>
+                        <property name="focus_on_click">False</property>
+                        <property name="orientation">vertical</property>
+                        <property name="adjustment">adj_volume</property>
                       </object>
                       <packing>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkVolumeButton" id="volumebutton1">
-                        <property name="label" translatable="yes">Volume</property>
+                      <object class="GtkLabel" id="lbl_amp">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="orientation">vertical</property>
-                        <property name="adjustment">adj_volume</property>
-                        <property name="icons"></property>
+                        <property name="label" translatable="yes">50.0%</property>
+                        <property name="width_chars">4</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
