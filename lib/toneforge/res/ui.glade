@@ -13,75 +13,86 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <child>
-          <object class="GtkHBox" id="hbox1">
+          <object class="GtkTable" id="table1">
             <property name="visible">True</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">2</property>
             <child>
-              <object class="GtkDrawingArea" id="drawingarea">
-                <property name="width_request">110</property>
-                <property name="height_request">110</property>
+              <object class="GtkHBox" id="hbox2">
                 <property name="visible">True</property>
-              </object>
-              <packing>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkVBox" id="vbox1">
-                <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkHBox" id="hbox2">
+                  <object class="GtkLabel" id="label3">
                     <property name="visible">True</property>
-                    <child>
-                      <object class="GtkLabel" id="label3">
-                        <property name="visible">True</property>
-                        <property name="xalign">0.44999998807907104</property>
-                        <property name="label" translatable="yes">Amplitude:</property>
-                      </object>
-                      <packing>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="lbl_amp">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">50.0%</property>
-                        <property name="width_chars">7</property>
-                      </object>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
+                    <property name="xalign">0.44999998807907104</property>
+                    <property name="label" translatable="yes">Amplitude:</property>
                   </object>
                   <packing>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkVolumeButton" id="volumebutton1">
-                    <property name="label" translatable="yes">Volume</property>
+                  <object class="GtkLabel" id="lbl_amp">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="relief">none</property>
-                    <property name="focus_on_click">False</property>
-                    <property name="orientation">vertical</property>
-                    <property name="adjustment">adj_volume</property>
-                    <property name="icons"></property>
+                    <property name="label" translatable="yes">50.0%</property>
+                    <property name="width_chars">4</property>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="padding">10</property>
-                <property name="position">1</property>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
               </packing>
+            </child>
+            <child>
+              <object class="GtkVolumeButton" id="volumebutton1">
+                <property name="label" translatable="yes">Volume</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="relief">none</property>
+                <property name="focus_on_click">False</property>
+                <property name="orientation">vertical</property>
+                <property name="adjustment">adj_volume</property>
+                <property name="icons"></property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_save">
+                <property name="label">gtk-save</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eb_draw">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkDrawingArea" id="drawingarea">
+                    <property name="width_request">200</property>
+                    <property name="height_request">200</property>
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+              </object>
             </child>
           </object>
         </child>
