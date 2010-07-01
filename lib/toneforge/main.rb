@@ -1,4 +1,5 @@
 require 'gtk2'
+require 'alsa' # ruby-alsa gem
 
 require 'toneforge/resources'
 
@@ -9,8 +10,6 @@ module Toneforge
   
   class Main
     SAMPLE_RATE = 8000
-    DSP = File.open("/dev/dsp", "w")
-    DSP.sync = true
     HANDLES = [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
     
     JOIN_FUNCTIONS = {
@@ -46,8 +45,6 @@ module Toneforge
       volume.value = 50.0
       
       window.signal_connect("destroy") do
-        DSP.close
-        
         Gtk.main_quit
       end
       
@@ -70,13 +67,18 @@ module Toneforge
       Thread.abort_on_exception=true
       
       Thread.new do
-        # FIXME: This sucks. Use a proper audio library and eliminate lag.
-        until DSP.closed?
-          str = ""
-          0.step(1.0, 0.02) do |t|
-            str << (get_amplitude(t) * 200).to_i.chr
+        ALSA::PCM::Playback.open do |playback|
+          playback.write do |length|
+            str = ""
+            length.times do |t|
+              t = t.to_f / length
+              t *= 100
+              t %= 1
+              str << (get_amplitude(t) * 200).to_i.chr
+            end
+            p length
+            str
           end
-          DSP.write(str) rescue nil
         end
       end
       
