@@ -27,7 +27,11 @@ module Toneforge
       volume.value = 50.0
       
       window.signal_connect("destroy") do
-        DSP.close unless DSP.closed?
+        begin
+          DSP.close
+        rescue
+        end unless DSP.closed?
+        
         Gtk.main_quit
       end
       
@@ -71,6 +75,7 @@ module Toneforge
           HANDLES[@handle_index][0] = mx
           HANDLES[@handle_index][1] = my
           
+          HANDLES.sort! {|a, b| a.first <=> b.first}
           render drawing_area
         end
       end
