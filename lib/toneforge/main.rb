@@ -4,15 +4,29 @@ require 'toneforge/resources'
 
 module Toneforge
   SAMPLE_RATE = 8000
-  DSP = File.open("/dev/dsp", "w")
-  DSP.sync = true
-  WAVE = []
+  #DSP = File.open("/dev/dsp", "w")
+  #DSP.sync = true
+  HANDLES = [[0.2, 0.7], [0.4, 0.3], [0.6, 0.7], [0.8, 0.3], [1.0, 0.7]]
 
   def self.beep(frequency, amplitude, duration)
     0.step(duration, 1.0 / SAMPLE_RATE) do |t|
       y = Math.sin(t * frequency) * 50 + 127;
       DSP.write(y.to_i.chr)
     end
+  end
+  
+  def self.get_y from_x
+    last_x, last_y = * HANDLES.last
+    result = 0
+    HANDLES.each do |x, y|
+      if from_x <= x
+        m = (y - last_y) / (x - last_x)
+        result = m * (from_x - last_x) + last_y
+        break
+      end
+      last_x, last_y = x, y
+    end
+    result
   end
   
   def self.main
@@ -31,15 +45,13 @@ module Toneforge
       Gtk.main_quit
     end
     
-    256.times do |i|
-      WAVE << 32 * Math.sin(i.to_f / 5) + 128
-    end
-    
-    Thread.new do
-      loop do
-        DSP.write(WAVE.map {|n| n.to_i.chr}.join)
-      end
-    end
+    #Thread.new do
+    #  loop do
+    #    0.step(1.0, 0.01) do |t|
+    #      DSP.write((get_y(t) * 200).to_i.chr)
+    #    end
+    #  end
+    #end
 
     volume.signal_connect("value-changed") do
       amp_label.set_text('%.1f%%' % volume.value)
@@ -53,9 +65,17 @@ module Toneforge
     
     drawing_area.signal_connect("expose-event") do
       cairo = drawing_area.window.create_cairo_context
-      cairo.move_to 0, WAVE.last
-      WAVE.each_with_index do |y, x|
-        cairo.line_to x, y
+      width = drawing_area.allocation.width
+      height = drawing_area.allocation.height
+
+      HANDLES.each do |x, y|
+        cairo.arc(x * width, y * height, 4, 0, Math::PI * 2)
+        cairo.stroke
+      end
+      
+      cairo.move_to 0, get_y(0)
+      0.step(1, 0.01) do |x|
+        cairo.line_to(x * width, get_y(x) * height)
       end
       cairo.stroke
     end
