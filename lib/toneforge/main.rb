@@ -34,13 +34,19 @@ module Toneforge
       builder.add_from_file(Resources.find 'ui.glade')
       window = builder.get_object('wnd_main')
       volume = builder.get_object('adj_volume')
-      amp_label = builder.get_object('lbl_amp')
+      volume_button = builder.get_object('btn_volume')
+      frequency_slider = builder.get_object('adj_frequency')
       drawing_area = builder.get_object('drawingarea')
       eb_draw = builder.get_object('eb_draw')
+      menu_new = builder.get_object('menu_new')
       menu_quit = builder.get_object('menu_quit')
       menu_export = builder.get_object('menu_export')
+      menu_about = builder.get_object('menu_about')
+      about_dialog = builder.get_object('about_dialog')
       menu_draw_linear = builder.get_object('menu_draw_linear')
       menu_draw_sinusoidal = builder.get_object('menu_draw_sinusoidal')
+      about_close_button = builder.get_object('btn_about_close')
+      mute_checkbox = builder.get_object('chk_mute') # TODO: make this work
       
       volume.value = 50.0
       
@@ -52,16 +58,30 @@ module Toneforge
         window.destroy
       end
       
-      menu_export.signal_connect("activate") do
+      menu_new.signal_connect("activate") do
+        HANDLES.clear
+        HANDLES.concat [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
         a = drawing_area.allocation
-        surface = Cairo::ImageSurface.new(a.width, a.height)
+        render(drawing_area.window.create_cairo_context, a.width, a.height)
+      end
+      
+      menu_export.signal_connect("activate") do
+        surface = Cairo::ImageSurface.new(800, 600)
         context = Cairo::Context.new(surface)
-        render(context, surface.width, surface.height)
+        render(context, 800, 600)
         surface.write_to_png(File.join(GLib.home_dir, "tuneforge-image.png"))
+      end
+      
+      menu_about.signal_connect("activate") do
+        about_dialog.show
+      end
+      
+      about_close_button.signal_connect("clicked") do
+        about_dialog.hide
       end
 
       volume.signal_connect("value-changed") do
-        amp_label.set_text('%.1f%%' % volume.value)
+        volume_button.tooltip_text = '%.1f%%' % volume.value
       end
 
       Thread.abort_on_exception=true
