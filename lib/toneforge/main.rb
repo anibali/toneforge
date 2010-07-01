@@ -38,8 +38,11 @@ module Toneforge
       eb_draw = builder.get_object('eb_draw')
       menu_quit = builder.get_object('menu_quit')
       menu_export = builder.get_object('menu_export')
+      menu_about = builder.get_object('menu_about')
+      about_dialog = builder.get_object('about_dialog')
       menu_draw_linear = builder.get_object('menu_draw_linear')
       menu_draw_sinusoidal = builder.get_object('menu_draw_sinusoidal')
+      about_close_button = builder.get_object('btn_about_close')
       
       volume.value = 50.0
       
@@ -54,11 +57,18 @@ module Toneforge
       end
       
       menu_export.signal_connect("activate") do
-        a = drawing_area.allocation
-        surface = Cairo::ImageSurface.new(a.width, a.height)
+        surface = Cairo::ImageSurface.new(800, 600)
         context = Cairo::Context.new(surface)
-        render(context, surface.width, surface.height)
+        render(context, 600, 600)
         surface.write_to_png(File.join(GLib.home_dir, "tuneforge-image.png"))
+      end
+      
+      menu_about.signal_connect("activate") do
+        about_dialog.show
+      end
+      
+      about_close_button.signal_connect("clicked") do
+        about_dialog.hide
       end
 
       volume.signal_connect("value-changed") do
