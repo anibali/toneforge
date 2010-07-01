@@ -22,7 +22,7 @@ module Toneforge
       drawing_area = builder.get_object('drawingarea')
       eb_draw = builder.get_object('eb_draw')
       menu_quit = builder.get_object('menu_quit')
-      menu_save = builder.get_object('menu_save')
+      menu_export = builder.get_object('menu_export')
       
       volume.value = 50.0
       
@@ -36,7 +36,7 @@ module Toneforge
         window.destroy
       end
       
-      menu_save.signal_connect("activate") do
+      menu_export.signal_connect("activate") do
         a = drawing_area.allocation
         image = Gdk::Pixbuf.from_drawable(drawing_area.colormap, 
           drawing_area.window, 0, 0, a.width, a.height)
