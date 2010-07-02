@@ -196,7 +196,7 @@ module Toneforge
         cairo.stroke
       end
       
-      0.step(1, 0.01) do |x|
+      0.step(1, 0.001) do |x|
         cairo.line_to(x * width, get_amplitude(x) * height)
       end
       cairo.stroke
