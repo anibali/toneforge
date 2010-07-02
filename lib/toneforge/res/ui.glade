@@ -116,7 +116,7 @@
                         <property name="tooltip_text" translatable="yes">Linear</property>
                         <property name="label" translatable="yes">Linear</property>
                         <property name="use_underline">True</property>
-                        <property name="stock_id">gtk-convert</property>
+                        <property name="icon_widget">img_linear</property>
                         <property name="active">True</property>
                         <property name="group">btn_draw_sinusoidal</property>
                       </object>
@@ -131,7 +131,7 @@
                         <property name="tooltip_text" translatable="yes">Sinusoidal</property>
                         <property name="label" translatable="yes">Sinusoidal</property>
                         <property name="use_underline">True</property>
-                        <property name="stock_id">gtk-convert</property>
+                        <property name="icon_widget">img_sinusoidal</property>
                         <property name="active">True</property>
                       </object>
                       <packing>
@@ -145,7 +145,7 @@
                         <property name="tooltip_text" translatable="yes">Square</property>
                         <property name="label" translatable="yes">Square</property>
                         <property name="use_underline">True</property>
-                        <property name="stock_id">gtk-convert</property>
+                        <property name="icon_widget">img_square</property>
                         <property name="active">True</property>
                         <property name="group">btn_draw_sinusoidal</property>
                       </object>
@@ -377,5 +377,17 @@ audio-volume-medium</property>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="stock">gtk-save-as</property>
+  </object>
+  <object class="GtkImage" id="img_linear">
+    <property name="visible">True</property>
+    <property name="pixbuf">linear.png</property>
+  </object>
+  <object class="GtkImage" id="img_sinusoidal">
+    <property name="visible">True</property>
+    <property name="pixbuf">sinusoidal.png</property>
+  </object>
+  <object class="GtkImage" id="img_square">
+    <property name="visible">True</property>
+    <property name="pixbuf">square.png</property>
   </object>
 </interface>
