@@ -254,7 +254,7 @@ audio-volume-medium</property>
             <child type="tab">
               <object class="GtkLabel" id="lbl_tab1">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Main</property>
+                <property name="label" translatable="yes">Amplitude</property>
               </object>
               <packing>
                 <property name="tab_fill">False</property>
