@@ -145,6 +145,27 @@
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <child>
+                  <object class="GtkToolbar" id="toolbar1">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkToolButton" id="toolbutton1">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">OMG TOOLBAR!</property>
+                        <property name="use_underline">True</property>
+                        <property name="stock_id">gtk-yes</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkEventBox" id="eb_draw">
                     <property name="visible">True</property>
                     <child>
@@ -156,7 +177,7 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="position">0</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -166,7 +187,7 @@
                       <object class="GtkLabel" id="label3">
                         <property name="visible">True</property>
                         <property name="xpad">3</property>
-                        <property name="label" translatable="yes">Frequency:</property>
+                        <property name="label" translatable="yes">Frequency (Hz):</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -174,10 +195,13 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHScale" id="frequency_slider">
+                      <object class="GtkSpinButton" id="spinbutton1">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
                         <property name="adjustment">adj_frequency</property>
+                        <property name="climb_rate">1</property>
+                        <property name="digits">1</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -228,7 +252,7 @@ audio-volume-medium</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
@@ -362,6 +386,7 @@ audio-volume-medium</property>
     <property name="value">200</property>
     <property name="lower">1</property>
     <property name="upper">1000</property>
+    <property name="step_increment">1</property>
   </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
