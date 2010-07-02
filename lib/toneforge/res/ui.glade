@@ -9,8 +9,9 @@
     <property name="default_height">250</property>
     <property name="icon_name">preferences-desktop-multimedia</property>
     <child>
-      <object class="GtkVBox" id="vbox1">
+      <object class="GtkVBox" id="vbox5">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkMenuBar" id="menubar1">
             <property name="visible">True</property>
@@ -134,6 +135,7 @@
             <child>
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkEventBox" id="eb_draw">
                     <property name="visible">True</property>
@@ -176,18 +178,22 @@
                     <child>
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkScaleButton" id="btn_volume">
+                          <object class="GtkVolumeButton" id="volumebutton1">
                             <property name="label" translatable="yes">Volume</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="has_tooltip">True</property>
-                            <property name="tooltip_text" translatable="yes">50.0%</property>
                             <property name="relief">none</property>
                             <property name="focus_on_click">False</property>
                             <property name="orientation">vertical</property>
                             <property name="adjustment">adj_volume</property>
+                            <property name="icons">audio-volume-muted
+audio-volume-high
+audio-volume-low
+audio-volume-medium</property>
                           </object>
                           <packing>
                             <property name="position">0</property>
@@ -261,27 +267,7 @@
     </child>
   </object>
   <object class="GtkAdjustment" id="adj_volume">
-    <property name="upper">110</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">10</property>
-  </object>
-  <object class="GtkImage" id="image1">
-    <property name="visible">True</property>
-    <property name="stock">gtk-save</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image2">
-    <property name="visible">True</property>
-    <property name="stock">gtk-convert</property>
-    <property name="pixel_size">12</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image3">
-    <property name="visible">True</property>
-    <property name="stock">gtk-convert</property>
-    <property name="pixel_size">12</property>
-    <property name="icon-size">1</property>
+    <property name="upper">100</property>
   </object>
   <object class="GtkWindow" id="about_dialog">
     <property name="title" translatable="yes">About Toneforge</property>
@@ -365,9 +351,25 @@
     </child>
   </object>
   <object class="GtkAdjustment" id="adj_frequency">
-    <property name="upper">110</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">10</property>
+    <property name="value">800</property>
+    <property name="lower">100</property>
+    <property name="upper">2000</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="stock">gtk-save</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="stock">gtk-convert</property>
+    <property name="pixel_size">12</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="stock">gtk-convert</property>
+    <property name="pixel_size">12</property>
+    <property name="icon-size">1</property>
   </object>
 </interface>

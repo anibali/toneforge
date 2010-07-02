@@ -38,7 +38,6 @@ module Toneforge
       
       window = @builder['wnd_main']
       volume = @builder['adj_volume']
-      volume_button = @builder['btn_volume']
       frequency_slider = @builder['adj_frequency']
       @drawing_area = @builder['drawingarea']
       eb_draw = @builder['eb_draw']
@@ -75,10 +74,6 @@ module Toneforge
       
       @builder['btn_about_close'].signal_connect("clicked") do
         about_dialog.hide
-      end
-
-      volume.signal_connect("value-changed") do
-        volume_button.tooltip_text = '%.1f%%' % volume.value
       end
       
       @builder['menu_draw_linear'].signal_connect("activate") do
