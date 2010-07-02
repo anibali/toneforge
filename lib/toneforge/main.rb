@@ -61,11 +61,21 @@ module Toneforge
         render
       end
       
-      @builder['menu_export'].signal_connect("activate") do
-        surface = Cairo::ImageSurface.new(800, 600)
-        context = Cairo::Context.new(surface)
-        draw(context, 800, 600)
-        surface.write_to_png(File.join(GLib.home_dir, "tuneforge-image.png"))
+      @builder['menu_export_png'].signal_connect("activate") do
+        dialog = Gtk::FileChooserDialog.new("Open File",
+                                             window,
+                                             Gtk::FileChooser::ACTION_SAVE,
+                                             nil,
+                                             [Gtk::Stock::CANCEL, Gtk::Dialog::RESPONSE_CANCEL],
+                                             [Gtk::Stock::SAVE, Gtk::Dialog::RESPONSE_ACCEPT])
+        if dialog.run == Gtk::Dialog::RESPONSE_ACCEPT
+          file = dialog.filename #TODO: add .png
+          surface = Cairo::ImageSurface.new(800, 600)
+          context = Cairo::Context.new(surface)
+          draw(context, 800, 600)
+          surface.write_to_png(File.join(GLib.home_dir, file))
+        end
+        dialog.destroy
       end
       
       @builder['menu_about'].signal_connect("activate") do
@@ -83,6 +93,11 @@ module Toneforge
       
       @builder['menu_draw_sinusoidal'].signal_connect("activate") do
         @join_function = JOIN_FUNCTIONS[:sinusoidal]
+        render
+      end
+      
+      @builder['menu_draw_square'].signal_connect("activate") do
+        @join_function = JOIN_FUNCTIONS[:square]
         render
       end
       

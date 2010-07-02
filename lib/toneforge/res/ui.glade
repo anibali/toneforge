@@ -11,6 +11,7 @@
     <child>
       <object class="GtkVBox" id="vbox5">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkMenuBar" id="menubar1">
             <property name="visible">True</property>
@@ -49,8 +50,8 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="menu_export">
-                        <property name="label" translatable="yes">Export as image</property>
+                      <object class="GtkImageMenuItem" id="menu_export_png">
+                        <property name="label" translatable="yes">Export .png...</property>
                         <property name="visible">True</property>
                         <property name="image">image1</property>
                         <property name="use_stock">False</property>
@@ -97,6 +98,14 @@
                         <property name="use_stock">False</property>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="menu_draw_square">
+                        <property name="label">Square</property>
+                        <property name="visible">True</property>
+                        <property name="image">image4</property>
+                        <property name="use_stock">False</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -134,6 +143,7 @@
             <child>
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkEventBox" id="eb_draw">
                     <property name="visible">True</property>
@@ -176,6 +186,7 @@
                     <child>
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkVolumeButton" id="volumebutton1">
                             <property name="label" translatable="yes">Volume</property>
@@ -348,13 +359,13 @@ audio-volume-medium</property>
     </child>
   </object>
   <object class="GtkAdjustment" id="adj_frequency">
-    <property name="value">800</property>
+    <property name="value">200</property>
     <property name="lower">1</property>
     <property name="upper">1000</property>
   </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
-    <property name="stock">gtk-save</property>
+    <property name="stock">gtk-save-as</property>
     <property name="icon-size">1</property>
   </object>
   <object class="GtkImage" id="image2">
@@ -364,6 +375,12 @@ audio-volume-medium</property>
     <property name="icon-size">1</property>
   </object>
   <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="stock">gtk-convert</property>
+    <property name="pixel_size">12</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image4">
     <property name="visible">True</property>
     <property name="stock">gtk-convert</property>
     <property name="pixel_size">12</property>
