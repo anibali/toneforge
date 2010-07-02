@@ -27,7 +27,7 @@ module Toneforge
       },
       
       :square => lambda { |x1, y1, x2, y2, x|
-        x2 - x > x1 - x ? y1 : y2
+        x2 - x >= x1 - x ? y1 : y2
       }
     }
 
@@ -148,7 +148,7 @@ module Toneforge
               n_samples = (length.to_f / frequency_slider.value).round
               n_samples.times do |t|
                 t = t.to_f / n_samples
-                str << (get_amplitude(t) * 256 * volume.value / 100).to_i.chr
+                str << (get_amplitude(t) * 255 * volume.value / 100).to_i.chr
               end
               str *= length / n_samples
             end
