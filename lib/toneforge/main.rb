@@ -100,17 +100,17 @@ module Toneforge
         about_dialog.hide
       end
       
-      @builder['menu_draw_linear'].signal_connect("activate") do
+      @builder['btn_draw_linear'].signal_connect("clicked") do
         @join_function = JOIN_FUNCTIONS[:linear]
         render
       end
       
-      @builder['menu_draw_sinusoidal'].signal_connect("activate") do
+      @builder['btn_draw_sinusoidal'].signal_connect("clicked") do
         @join_function = JOIN_FUNCTIONS[:sinusoidal]
         render
       end
       
-      @builder['menu_draw_square'].signal_connect("activate") do
+      @builder['btn_draw_square'].signal_connect("clicked") do
         @join_function = JOIN_FUNCTIONS[:square]
         render
       end

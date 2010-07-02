@@ -51,9 +51,10 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="menu_export_png">
-                        <property name="label" translatable="yes">Export PNG...</property>
+                        <property name="label">Export _PNG</property>
                         <property name="visible">True</property>
-                        <property name="image">image1</property>
+                        <property name="use_underline">True</property>
+                        <property name="image">image2</property>
                         <property name="use_stock">False</property>
                       </object>
                     </child>
@@ -68,42 +69,6 @@
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="menuitem4">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">_Join</property>
-                <property name="use_underline">True</property>
-                <child type="submenu">
-                  <object class="GtkMenu" id="menu3">
-                    <property name="visible">True</property>
-                    <child>
-                      <object class="GtkImageMenuItem" id="menu_draw_linear">
-                        <property name="label">Linear</property>
-                        <property name="visible">True</property>
-                        <property name="image">image2</property>
-                        <property name="use_stock">False</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="menu_draw_sinusoidal">
-                        <property name="label">Sinusoidal</property>
-                        <property name="visible">True</property>
-                        <property name="image">image3</property>
-                        <property name="use_stock">False</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="menu_draw_square">
-                        <property name="label">Square</property>
-                        <property name="visible">True</property>
-                        <property name="image">image4</property>
-                        <property name="use_stock">False</property>
                       </object>
                     </child>
                   </object>
@@ -148,11 +113,38 @@
                   <object class="GtkToolbar" id="toolbar1">
                     <property name="visible">True</property>
                     <child>
-                      <object class="GtkToolButton" id="toolbutton1">
+                      <object class="GtkToolButton" id="btn_draw_linear">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">OMG TOOLBAR!</property>
+                        <property name="tooltip_text" translatable="yes">Linear</property>
+                        <property name="label" translatable="yes">Linear</property>
                         <property name="use_underline">True</property>
-                        <property name="stock_id">gtk-yes</property>
+                        <property name="stock_id">gtk-convert</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkToolButton" id="btn_draw_sinusoidal">
+                        <property name="visible">True</property>
+                        <property name="tooltip_text" translatable="yes">Sinusoidal</property>
+                        <property name="label" translatable="yes">Sinusoidal</property>
+                        <property name="use_underline">True</property>
+                        <property name="stock_id">gtk-convert</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="homogeneous">True</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkToolButton" id="btn_draw_square">
+                        <property name="visible">True</property>
+                        <property name="tooltip_text" translatable="yes">Square</property>
+                        <property name="label" translatable="yes">Square</property>
+                        <property name="use_underline">True</property>
+                        <property name="stock_id">gtk-convert</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -177,7 +169,7 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -391,24 +383,9 @@ audio-volume-medium</property>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="stock">gtk-save-as</property>
-    <property name="icon-size">1</property>
   </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
-    <property name="stock">gtk-convert</property>
-    <property name="pixel_size">12</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image3">
-    <property name="visible">True</property>
-    <property name="stock">gtk-convert</property>
-    <property name="pixel_size">12</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="image4">
-    <property name="visible">True</property>
-    <property name="stock">gtk-convert</property>
-    <property name="pixel_size">12</property>
-    <property name="icon-size">1</property>
+    <property name="stock">gtk-save-as</property>
   </object>
 </interface>
