@@ -11,6 +11,7 @@ module Toneforge
   class Main
     SAMPLE_RATE = 8000
     HANDLES = [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
+    WIDGETS = []
     
     JOIN_FUNCTIONS = {
       :linear => lambda { |x1, y1, x2, y2, x|
@@ -30,70 +31,49 @@ module Toneforge
     def initialize
       Thread.abort_on_exception = true
       
-      Thread.new do
-        ALSA::PCM::Playback.open do |playback|
-          playback.write do |length|
-            str = ""
-            f = 1600
-            f.times do |t|
-              t = t.to_f / f
-              str << (get_amplitude(t) * 150).to_i.chr
-            end
-            str *= length / f
-            str
-          end
-        end
-      end
-      
       @join_function = JOIN_FUNCTIONS[:sinusoidal]
       
-      builder = Gtk::Builder.new
-      builder.add_from_file(Resources.find 'ui.glade')
-      window = builder.get_object('wnd_main')
-      volume = builder.get_object('adj_volume')
-      volume_button = builder.get_object('btn_volume')
-      frequency_slider = builder.get_object('adj_frequency')
-      drawing_area = builder.get_object('drawingarea')
-      eb_draw = builder.get_object('eb_draw')
-      menu_new = builder.get_object('menu_new')
-      menu_quit = builder.get_object('menu_quit')
-      menu_export = builder.get_object('menu_export')
-      menu_about = builder.get_object('menu_about')
-      about_dialog = builder.get_object('about_dialog')
-      menu_draw_linear = builder.get_object('menu_draw_linear')
-      menu_draw_sinusoidal = builder.get_object('menu_draw_sinusoidal')
-      about_close_button = builder.get_object('btn_about_close')
-      mute_checkbox = builder.get_object('chk_mute') # TODO: make this work
+      @builder = Gtk::Builder.new
+      @builder.add_from_file(Resources.find 'ui.glade')
+      
+      window = @builder['wnd_main']
+      volume = @builder['adj_volume']
+      volume_button = @builder['btn_volume']
+      frequency_slider = @builder['adj_frequency']
+      @drawing_area = @builder['drawingarea']
+      eb_draw = @builder['eb_draw']
+      about_dialog = @builder['about_dialog']
+      @mute_checkbox = @builder['chk_mute']
       
       volume.value = 50.0
+      @mute_checkbox.active = true
       
       window.signal_connect("destroy") do
         Gtk.main_quit
       end
       
-      menu_quit.signal_connect("activate") do
+      @builder['menu_quit'].signal_connect("activate") do
         window.destroy
       end
       
-      menu_new.signal_connect("activate") do
+      @builder['menu_new'].signal_connect("activate") do
         HANDLES.clear
         HANDLES.concat [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
-        a = drawing_area.allocation
-        render(drawing_area.window.create_cairo_context, a.width, a.height)
+        render
       end
       
-      menu_export.signal_connect("activate") do
+      @builder['menu_export'].signal_connect("activate") do
         surface = Cairo::ImageSurface.new(800, 600)
         context = Cairo::Context.new(surface)
-        render(context, 800, 600)
+        draw(context, 800, 600)
         surface.write_to_png(File.join(GLib.home_dir, "tuneforge-image.png"))
       end
       
-      menu_about.signal_connect("activate") do
+      @builder['menu_about'].signal_connect("activate") do
         about_dialog.show
       end
       
-      about_close_button.signal_connect("clicked") do
+      @builder['btn_about_close'].signal_connect("clicked") do
         about_dialog.hide
       end
 
@@ -101,35 +81,35 @@ module Toneforge
         volume_button.tooltip_text = '%.1f%%' % volume.value
       end
       
-      menu_draw_linear.signal_connect("activate") do
+      @builder['menu_draw_linear'].signal_connect("activate") do
         @join_function = JOIN_FUNCTIONS[:linear]
-        a = drawing_area.allocation
-        render(drawing_area.window.create_cairo_context, a.width, a.height)
+        render
       end
       
-      menu_draw_sinusoidal.signal_connect("activate") do
+      @builder['menu_draw_sinusoidal'].signal_connect("activate") do
         @join_function = JOIN_FUNCTIONS[:sinusoidal]
-        a = drawing_area.allocation
-        render(drawing_area.window.create_cairo_context, a.width, a.height)
+        render
       end
       
-      drawing_area.signal_connect("expose-event") do
-        a = drawing_area.allocation
-        render(drawing_area.window.create_cairo_context, a.width, a.height)
+      @drawing_area.signal_connect("expose-event") do
+        render
       end
       
       eb_draw.signal_connect("motion-notify-event") do
         if @handle_index
-          width = drawing_area.allocation.width
-          height = drawing_area.allocation.height
+          width = @drawing_area.allocation.width
+          height = @drawing_area.allocation.height
           mx = eb_draw.pointer[0].to_f / width
           my = eb_draw.pointer[1].to_f / height
-          HANDLES[@handle_index][0] = clip mx unless @handle_index == HANDLES.size - 1
-          HANDLES[@handle_index][1] = clip my
+          if mx.between? -0.1, 1.1 and my.between? -0.1, 1.1
+            HANDLES[@handle_index][0] = clip mx unless @handle_index == HANDLES.size - 1
+            HANDLES[@handle_index][1] = clip my
+          else
+            @handle_index = nil
+          end
           
           HANDLES.sort! {|a, b| a.first <=> b.first}
-          a = drawing_area.allocation
-          render(drawing_area.window.create_cairo_context, a.width, a.height)
+          render
         end
       end
       
@@ -137,8 +117,8 @@ module Toneforge
         @handle_index = nil
         best_dist = 1
         
-        width = drawing_area.allocation.width
-        height = drawing_area.allocation.height
+        width = @drawing_area.allocation.width
+        height = @drawing_area.allocation.height
         mx = eb_draw.pointer[0].to_f / width
         my = eb_draw.pointer[1].to_f / height
         
@@ -154,8 +134,27 @@ module Toneforge
         unless @handle_index
           HANDLES << [mx, get_amplitude(mx)]
           HANDLES.sort! {|a, b| a.first <=> b.first}
-          a = drawing_area.allocation
-          render(drawing_area.window.create_cairo_context, a.width, a.height)
+          render
+        end
+      end
+      
+      Thread.new do
+        # FIXME: massive lag on my desktop computer for some unknown reason
+        ALSA::PCM::Playback.open do |playback|
+          playback.write do |length|
+            str = ""
+            if @mute_checkbox.destroyed?
+              str = nil
+            elsif not @mute_checkbox.active?
+              f = 1600
+              f.times do |t|
+                t = t.to_f / f
+                str << (get_amplitude(t) * 150).to_i.chr
+              end
+              str *= length / f
+            end
+            str
+          end
         end
       end
 
@@ -166,7 +165,12 @@ module Toneforge
       Gtk.main
     end
     
-    def render cairo, width, height
+    def render
+      a = @drawing_area.allocation
+      draw(@drawing_area.window.create_cairo_context, a.width, a.height)
+    end
+    
+    def draw cairo, width, height
       cairo.save
       cairo.set_source_rgba 1, 1, 1, 1;
       cairo.operator = Cairo::OPERATOR_SOURCE
