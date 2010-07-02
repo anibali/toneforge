@@ -45,6 +45,7 @@ module Toneforge
       @mute_checkbox = @builder['chk_mute']
       
       volume.value = 50.0
+      frequency_slider.value = 800.0
       @mute_checkbox.active = true
       
       window.signal_connect("destroy") do
