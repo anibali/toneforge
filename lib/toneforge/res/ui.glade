@@ -115,6 +115,7 @@
                     <child>
                       <object class="GtkRadioToolButton" id="btn_draw_linear">
                         <property name="visible">True</property>
+                        <property name="tooltip_text" translatable="yes">Linear</property>
                         <property name="label" translatable="yes">Linear</property>
                         <property name="use_underline">True</property>
                         <property name="icon_widget">img_linear</property>
@@ -128,6 +129,7 @@
                     <child>
                       <object class="GtkRadioToolButton" id="btn_draw_sinusoidal">
                         <property name="visible">True</property>
+                        <property name="tooltip_text" translatable="yes">Sinusoidal</property>
                         <property name="label" translatable="yes">Sinusoidal</property>
                         <property name="use_underline">True</property>
                         <property name="icon_widget">img_sinusoidal</property>
@@ -141,6 +143,7 @@
                     <child>
                       <object class="GtkRadioToolButton" id="btn_draw_square">
                         <property name="visible">True</property>
+                        <property name="tooltip_text" translatable="yes">Square</property>
                         <property name="label" translatable="yes">Square</property>
                         <property name="use_underline">True</property>
                         <property name="icon_widget">img_square</property>
