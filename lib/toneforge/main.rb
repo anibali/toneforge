@@ -9,7 +9,6 @@ module Toneforge
   end
   
   class Main
-    SAMPLE_RATE = 8000
     HANDLES = [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
     WIDGETS = []
     
@@ -45,7 +44,7 @@ module Toneforge
       @mute_checkbox = @builder['chk_mute']
       
       volume.value = 50.0
-      frequency_slider.value = 800.0
+      frequency_slider.value = 200.0
       @mute_checkbox.active = true
       
       window.signal_connect("destroy") do
@@ -142,12 +141,12 @@ module Toneforge
             if @mute_checkbox.destroyed?
               str = nil
             elsif not @mute_checkbox.active?
-              f = 1600
-              f.times do |t|
-                t = t.to_f / f
+              n_samples = (length.to_f / frequency_slider.value).round
+              n_samples.times do |t|
+                t = t.to_f / n_samples
                 str << (get_amplitude(t) * 256 * volume.value / 100).to_i.chr
               end
-              str *= length / f
+              str *= length / n_samples
             end
             str
           end
