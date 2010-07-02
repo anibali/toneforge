@@ -66,21 +66,29 @@ module Toneforge
       end
       
       @builder['menu_export_png'].signal_connect("activate") do
-        dialog = Gtk::FileChooserDialog.new("Open File",
-                                             window,
-                                             Gtk::FileChooser::ACTION_SAVE,
-                                             nil,
-                                             [Gtk::Stock::CANCEL, Gtk::Dialog::RESPONSE_CANCEL],
-                                             [Gtk::Stock::SAVE, Gtk::Dialog::RESPONSE_ACCEPT])
+        dialog = Gtk::FileChooserDialog.new("Export PNG",
+          window, Gtk::FileChooser::ACTION_SAVE,  nil,
+          [Gtk::Stock::CANCEL, Gtk::Dialog::RESPONSE_CANCEL],
+          [Gtk::Stock::SAVE, Gtk::Dialog::RESPONSE_ACCEPT])
+        
+        png_filter = Gtk::FileFilter.new
+        png_filter.add_pattern('*.png')
+        png_filter.name = "PNG image (*.png)"
+        dialog.add_filter(png_filter)
+
         dialog.current_folder = @export_png_dir || GLib.home_dir
+
         if dialog.run == Gtk::Dialog::RESPONSE_ACCEPT
-          file = dialog.filename #TODO: add .png
           surface = Cairo::ImageSurface.new(800, 600)
           context = Cairo::Context.new(surface)
           draw(context, 800, 600)
+          
+          file = dialog.filename
+          file << '.png' if File.extname(file) != ".png"
           surface.write_to_png(file)
           @export_png_dir = dialog.current_folder
         end
+        
         dialog.destroy
       end
       
