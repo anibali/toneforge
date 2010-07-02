@@ -9,8 +9,9 @@
     <property name="default_height">250</property>
     <property name="icon_name">preferences-desktop-multimedia</property>
     <child>
-      <object class="GtkVBox" id="vbox5">
+      <object class="GtkVBox" id="vbox2">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkMenuBar" id="menubar1">
             <property name="visible">True</property>
@@ -105,19 +106,18 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <child>
-              <object class="GtkVBox" id="vbox2">
+              <object class="GtkVBox" id="vbox6">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkToolbar" id="toolbar1">
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkRadioToolButton" id="btn_draw_linear">
                         <property name="visible">True</property>
-                        <property name="tooltip_text" translatable="yes">Linear</property>
                         <property name="label" translatable="yes">Linear</property>
                         <property name="use_underline">True</property>
                         <property name="icon_widget">img_linear</property>
-                        <property name="active">True</property>
                         <property name="group">btn_draw_sinusoidal</property>
                       </object>
                       <packing>
@@ -128,7 +128,6 @@
                     <child>
                       <object class="GtkRadioToolButton" id="btn_draw_sinusoidal">
                         <property name="visible">True</property>
-                        <property name="tooltip_text" translatable="yes">Sinusoidal</property>
                         <property name="label" translatable="yes">Sinusoidal</property>
                         <property name="use_underline">True</property>
                         <property name="icon_widget">img_sinusoidal</property>
@@ -142,11 +141,9 @@
                     <child>
                       <object class="GtkRadioToolButton" id="btn_draw_square">
                         <property name="visible">True</property>
-                        <property name="tooltip_text" translatable="yes">Square</property>
                         <property name="label" translatable="yes">Square</property>
                         <property name="use_underline">True</property>
                         <property name="icon_widget">img_square</property>
-                        <property name="active">True</property>
                         <property name="group">btn_draw_sinusoidal</property>
                       </object>
                       <packing>
@@ -172,7 +169,7 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="position">2</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -205,13 +202,13 @@
                     <child>
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkVolumeButton" id="volumebutton1">
                             <property name="label" translatable="yes">Volume</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="has_tooltip">True</property>
                             <property name="relief">none</property>
                             <property name="focus_on_click">False</property>
                             <property name="orientation">vertical</property>
