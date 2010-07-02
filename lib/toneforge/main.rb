@@ -145,7 +145,7 @@ module Toneforge
               f = 1600
               f.times do |t|
                 t = t.to_f / f
-                str << (get_amplitude(t) * 150).to_i.chr
+                str << (get_amplitude(t) * 256 * volume.value / 100).to_i.chr
               end
               str *= length / f
             end
