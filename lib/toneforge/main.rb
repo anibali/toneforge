@@ -24,6 +24,10 @@ module Toneforge
         h = (x2 + x1) / 2
         k = (y2 + y1) / 2
         a * Math.sin(n * (x - h)) + k
+      },
+      
+      :square => lambda { |x1, y1, x2, y2, x|
+        x2 - x > x1 - x ? y1 : y2
       }
     }
 
@@ -120,7 +124,7 @@ module Toneforge
         HANDLES.each_with_index do |pos, i|
           x, y = *pos
           dist = Math.sqrt((my - y) ** 2 + (mx - x) ** 2)
-          if dist < 0.04 and dist < best_dist
+          if dist < 0.05 and dist < best_dist
             @handle_index = i
             best_dist = dist
           end
