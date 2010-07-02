@@ -1,9 +1,10 @@
-require 'gtk2'
-require 'alsa' # ruby-alsa gem
+require 'gtk2' # part of ruby-gnome project
+require 'alsa' # from ruby-alsa gem
 
 require 'toneforge/resources'
 
 module Toneforge
+  # Main function for starting the application
   def self.main
     Main.new.run
   end
@@ -32,13 +33,17 @@ module Toneforge
     }
 
     def initialize
+      # Tell threads to die with a fuss and provide useful debugging info
       Thread.abort_on_exception = true
       
+      # Set the default join function to sinusoidal
       @join_function = JOIN_FUNCTIONS[:sinusoidal]
       
+      # Load the user interface
       @builder = Gtk::Builder.new
       @builder.add_from_file(Resources.find 'ui.glade')
       
+      # Get references to some useful widgets
       window = @builder['wnd_main']
       volume = @builder['adj_volume']
       frequency_slider = @builder['adj_frequency']
@@ -47,10 +52,11 @@ module Toneforge
       about_dialog = @builder['about_dialog']
       @mute_checkbox = @builder['chk_mute']
       
+      # Set some default values for widgets
       volume.value = 50.0
       frequency_slider.value = 200.0
-      @mute_checkbox.active = true
       
+      # Quit main loop when window is closed
       window.signal_connect("destroy") do
         Gtk.main_quit
       end
@@ -115,10 +121,12 @@ module Toneforge
         render
       end
       
+      # Render the wave as soon as the drawing area is visible
       @drawing_area.signal_connect("expose-event") do
         render
       end
       
+      # Handle mouse drags
       eb_draw.signal_connect("motion-notify-event") do
         if @handle_index
           width = @drawing_area.allocation.width
@@ -162,6 +170,7 @@ module Toneforge
         end
       end
       
+      # Start sound playback loop in a new thread
       Thread.new do
         # FIXME: massive lag on my desktop computer for some unknown reason
         ALSA::PCM::Playback.open do |playback|
@@ -185,15 +194,18 @@ module Toneforge
       window.show_all
     end
     
+    # Start the main loop, show the UI
     def run
       Gtk.main
     end
     
+    # Update the wave display
     def render
       a = @drawing_area.allocation
       draw(@drawing_area.window.create_cairo_context, a.width, a.height)
     end
     
+    # Draw the wave in a Cairo context
     def draw cairo, width, height
       cairo.save
       cairo.set_source_rgba 1, 1, 1, 1;
@@ -214,6 +226,8 @@ module Toneforge
       return cairo
     end
     
+    # Get the amplitude at a certain time (both values should be between 0 and 1
+    # inclusive)
     def get_amplitude t
       x1 = 0.0
       y1 = HANDLES.last[1]
@@ -232,6 +246,7 @@ module Toneforge
       clip result
     end
     
+    # Convenience function for clipping numbers above 1 and below 0
     def clip n
       n < 0 ? 0.0 : n > 1 ? 1.0 : n
     end
