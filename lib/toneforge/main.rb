@@ -77,7 +77,7 @@ module Toneforge
           surface = Cairo::ImageSurface.new(800, 600)
           context = Cairo::Context.new(surface)
           draw(context, 800, 600)
-          surface.write_to_png(File.join(GLib.home_dir, file))
+          surface.write_to_png(file)
         end
         dialog.destroy
       end
