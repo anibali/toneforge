@@ -186,6 +186,7 @@ module Toneforge
               end
               str *= length / n_samples
             end
+            sleep 0.1
             str
           end
         end
