@@ -11,7 +11,6 @@ module Toneforge
   
   class Main
     HANDLES = [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
-    WIDGETS = []
     
     JOIN_FUNCTIONS = {
       :linear => lambda { |x1, y1, x2, y2, x|
@@ -66,6 +65,7 @@ module Toneforge
       end
       
       @builder['menu_new'].signal_connect("activate") do
+        # Reset quantity and position of handles
         HANDLES.clear
         HANDLES.concat [[0.25, 0.7], [0.5, 0.3], [0.75, 0.7], [1.0, 0.3]]
         render
