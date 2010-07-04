@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 
+begin
+  require 'rubygems'
+rescue LoadError
+end
+
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'toneforge/main'
+
 Toneforge.main
 
